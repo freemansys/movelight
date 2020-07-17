@@ -7,8 +7,6 @@
     <!-- required to access camera and its flashlight -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
-    <!-- required to keep the flashlight turned on -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
