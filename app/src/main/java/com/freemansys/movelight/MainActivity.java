@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mFlashManager = new FlashManager(this);
-        mFlashManager.initCamera();
 
         powerButton = (ImageButton) findViewById(R.id.power_button);
         powerButton.setOnClickListener(this);
