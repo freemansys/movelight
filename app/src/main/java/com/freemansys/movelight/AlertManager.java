@@ -24,6 +24,9 @@ public class AlertManager {
 
     private void initNotification(Context context) {
         mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Intent stateIntent = new Intent(context, NotificationReceiver.class);
+        stateIntent.putExtra("channelId", NOTIFICATION_CHANNEL_ID);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, stateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("movelight_channel", "movelight", NotificationManager.IMPORTANCE_DEFAULT);
@@ -36,6 +39,7 @@ public class AlertManager {
                 .setContentTitle(context.getString(R.string.str_flashlight_is_on))
                 .setContentText(context.getString(R.string.str_flashlight_click_to_turn_off))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .addAction(0, context.getString(R.string.str_flashlight_turn_off), pendingIntent)
                 .setOngoing(true);
     }
 
@@ -45,6 +49,29 @@ public class AlertManager {
 
     public void closeNotification() {
         mManager.cancel(NOTIFICATION_CHANNEL_ID);
+    }
+
+    public static class NotificationReceiver extends BroadcastReceiver {
+
+        /** custom listener for notification [START] **/
+        private static NotificationListener mNotificationListener;
+        public interface NotificationListener {
+            void onClosed();
+        }
+        public void setOnNotificationClosed(NotificationListener listener){
+            mNotificationListener = listener;
+        }
+        /** custom listener for notification [END] **/
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int channelId = intent.getIntExtra("channelId", 0);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            notificationManager.cancel(channelId);
+
+            mNotificationListener.onClosed();
+        }
+
     }
 
 }

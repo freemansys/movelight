@@ -24,6 +24,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         powerButton = (ImageButton) findViewById(R.id.power_button);
         powerButton.setOnClickListener(this);
+
+        AlertManager.NotificationReceiver receiver = new AlertManager.NotificationReceiver();
+        receiver.setOnNotificationClosed(new AlertManager.NotificationReceiver.NotificationListener() {
+            @Override
+            public void onClosed() {
+                mFlashManager.setFlashOff();
+                flashStatus = false;
+                changePowerButtonColor(flashStatus);
+            }
+        });
     }
 
     @Override
