@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageButton powerButton;
     private FlashManager mFlashManager;
+    private AlertManager mAlertManager;
     private boolean flashStatus = false;
 
     @Override
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mFlashManager = new FlashManager(this);
+        mAlertManager = new AlertManager(this);
 
         powerButton = (ImageButton) findViewById(R.id.power_button);
         powerButton.setOnClickListener(this);
@@ -31,8 +33,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.power_button:
                 if(flashStatus == false) {
                     mFlashManager.setFlashON();
+                    mAlertManager.showNotification();
                 } else {
                     mFlashManager.setFlashOff();
+                    mAlertManager.closeNotification();
                 }
                 flashStatus = !flashStatus;
                 changePowerButtonColor(flashStatus);

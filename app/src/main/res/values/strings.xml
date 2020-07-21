@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Movelight</string>
+
+    <!-- AlertManager -->
+    <string name="str_flashlight_is_on">Flashlight is ON</string>
+    <string name="str_flashlight_turn_off">TURN OFF</string>
+    <string name="str_flashlight_click_to_turn_off">Click on below button to turn off</string>
 </resources>
