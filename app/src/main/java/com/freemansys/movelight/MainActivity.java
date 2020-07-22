@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton powerButton;
     private FlashManager mFlashManager;
     private AlertManager mAlertManager;
+    private GestureManager mGestureManager;
     private boolean flashStatus = false;
 
     @Override
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFlashManager = new FlashManager(this);
         mAlertManager = new AlertManager(this);
+        mGestureManager = new GestureManager(this);
 
         powerButton = (ImageButton) findViewById(R.id.power_button);
         powerButton.setOnClickListener(this);
@@ -31,6 +33,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClosed() {
                 mFlashManager.setFlashOff();
                 flashStatus = false;
+                changePowerButtonColor(flashStatus);
+            }
+        });
+
+        mGestureManager.setOnChopDetected(new GestureManager.ChopListener() {
+            @Override
+            public void onChop() {
+                if (flashStatus == false) {
+                    mFlashManager.setFlashON();
+                    mAlertManager.showNotification();
+                    flashStatus = true;
+                } else {
+                    mFlashManager.setFlashOff();
+                    mAlertManager.closeNotification();
+                    flashStatus = false;
+                }
                 changePowerButtonColor(flashStatus);
             }
         });
@@ -59,4 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         powerButton.setColorFilter(newColor);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mGestureManager.closeSensor();
+    }
 }
