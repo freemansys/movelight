@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/screen_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"/>
 
     <ImageButton
         android:id="@+id/power_button"
@@ -12,4 +17,16 @@
         android:src="@drawable/ic_power"
         android:background="@drawable/round_button"/>
 
+    <SeekBar
+        android:id="@+id/lightness_seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="100dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:min="0"
+        android:progress="50"
+        android:layout_below="@id/power_button"/>
 </RelativeLayout>
